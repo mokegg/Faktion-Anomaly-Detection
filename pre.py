@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np 
 import os 
 from glob import glob
-
+import sklearn
 #handles the images of the files, loops through files and return a list of all the dices
 class Preprocesser(object):
 
@@ -28,7 +28,8 @@ class Preprocesser(object):
             print('Preprocesser file needs 6 or 11 as input for classe')
     
     #gets the images as array from data
-    def get_dices_in_files(self,file_array: list):
+    @classmethod
+    def get_dices_in_files(cls,file_array: list):
         data = []
    
         #looping through files array
@@ -52,7 +53,16 @@ class Preprocesser(object):
         dices = []
         for file in files:
             f = glob(file)
-            dices.append(self.get_dices_in_files(f))
+            dices.append(Preprocesser.get_dices_in_files(f))
+        #print('dices: '+type(dices))
+        return dices
+   
+    @classmethod
+    def get_all_dices(cls,files: list):
+        dices = []
+        for file in files:
+            f = glob(file)
+            dices.append(Preprocesser.get_dices_in_files(f))
         #print('dices: '+type(dices))
         return dices
 
@@ -106,9 +116,13 @@ class Training_data(object):
     def get_Data(self,type:str,classes_amount:int):
          
         if type == 'training':
+            
             training_data = 'training_data.npy'
             training_labels = 'training_labels.npy'
             if os.path.exists(training_data) and os.path.exists(training_labels):
+                anomalies = Preprocesser.get_all_dices(['./train_set/ano/*'])
+            
+                self.set_ano(anomalies)
                 print('Files already exis, import them!') 
                 print(f'data: {training_data}| labels: {training_labels}')
             
@@ -118,17 +132,19 @@ class Training_data(object):
                 self.raw_dices = preprocessing.dices
                 self.labels = self.get_labels(self.raw_dices) 
                 self.dices = self.stack_training_data(self.raw_dices)
-                anomalies = preprocessing.get_all_dices(['./train_set/ano/*'])
-                #print(type(anomalies))
-                self.set_ano(anomalies)
+                
                 self.save_data(self.dices,training_data)
                 self.save_data(self.labels,training_labels)
                 print(f'data: {training_data}| labels: {training_labels}')
         
         elif type == 'test':
+
+            
             test_data = 'test_data.npy'
             test_labels = 'test_labels.npy'
             if os.path.exists(test_data) and os.path.exists(test_labels):
+                anomalies = Preprocesser.get_all_dices(['./test_set/ano/*']) 
+                self.set_ano(anomalies)
                 print('Files already exis, import them!') 
                 print(f'data: {test_data}| labels: {test_labels}')
             
@@ -138,9 +154,7 @@ class Training_data(object):
                 self.labels = self.get_labels(self.raw_dices) 
                 self.dices = self.stack_training_data(self.raw_dices)
                 
-                anomalies = preprocessing.get_all_dices(['./test_set/ano/*'])
                 
-                self.set_ano(anomalies)
                 self.save_data(self.dices,test_data)
                 self.save_data(self.labels,test_labels)
                 print(f'data: {test_data}| labels: {test_labels}')
@@ -194,3 +208,16 @@ class Training_data(object):
     #set the anomaly data to object
     def set_ano(self,ano):
         self.anomalies = ano
+    
+
+    def shuffle_2_arrays(self,a, b):
+        assert len(a) == len(b)
+        p = np.random.permutation(len(a))
+        return a[p], b[p]
+    
+    def shuffle_array(self,array):
+        return sklearn.utils.shuffle(array)
+
+    def img_to_array(self,file:str)->object:
+        array = Preprocesser.get_all_dices([file])
+        return np.array(array[0])
