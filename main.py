@@ -27,7 +27,8 @@ def main():
 
     #load the test data
     test_img = np.load('test_data.npy')
-    
+    ano = file_handler.get_ano()
+    test_img = np.concatenate((test_img,ano))
     _input = input('random or file: ')
     if _input == 'random':
         samples = file_handler.shuffle_array(test_img)
