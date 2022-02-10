@@ -86,7 +86,6 @@ class Preprocesser(object):
                 dices.append(dices_raw[i])
 
         t = np.concatenate([dices_raw[7],dices_raw[8]])
-
         t= np.concatenate([t,dices_raw[9]])
         t= np.concatenate([t,dices_raw[10]])
         dices.append(t)
@@ -209,15 +208,27 @@ class Training_data(object):
     def set_ano(self,ano):
         self.anomalies = ano
     
-
+    #shuffle 2d array with respect to eachothers indexes
     def shuffle_2_arrays(self,a, b):
         assert len(a) == len(b)
         p = np.random.permutation(len(a))
         return a[p], b[p]
     
+    #shuffle the 1d array
     def shuffle_array(self,array):
         return sklearn.utils.shuffle(array)
 
-    def img_to_array(self,file:str)->object:
-        array = Preprocesser.get_all_dices([file])
-        return np.array(array[0])
+    #multi argument handler
+    def img_to_array(self,*files:str)->object:
+        _files = []
+        for file in files:
+            array = Preprocesser.get_all_dices(files)
+            _files.append(array[0][0])
+            print(file)
+       
+        return np.array(_files)
+
+    def img_to_array_list(self,list:list):
+        array = Preprocesser.get_all_dices(list)
+        a = np.array(array)
+        return a
