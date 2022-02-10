@@ -224,7 +224,7 @@ class Training_data(object):
         for file in files:
             array = Preprocesser.get_all_dices(files)
             _files.append(array[0][0])
-            print(file)
+            
        
         return np.array(_files)
 
