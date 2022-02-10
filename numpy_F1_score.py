@@ -41,15 +41,15 @@ fig,ax = plt.subplots()
 # make a plot
 ax.plot(df_f1.msssim, df_f1.F1_score, color="red", marker="o")
 # set x-axis label
-ax.set_xlabel("MS_SSIM",fontsize=14)
+ax.set_xlabel("multi-scale structural similarity index (MS_SSIM)",fontsize=12)
 # set y-axis label
-ax.set_ylabel("F1 Score",color="red",fontsize=14)
+ax.set_ylabel("F1 Score",color="red",fontsize=12)
 
 # twin object for two different y-axis on the sample plot
 ax2=ax.twinx()
 # make a plot with different y-axis using second axis object
 ax2.plot(df_f1.msssim, df_f1.fp,color="blue",marker="o", label= "False Positives")
-ax2.set_ylabel("False predictions",color="blue",fontsize=14)
+ax2.set_ylabel("False predictions",color="blue",fontsize=12)
 ax2.plot(df_f1.msssim, df_f1.fn,color="green",marker="o", label= "False Negatives")
 ax2.legend(loc='upper left', bbox_to_anchor= (1.1, 0.6), ncol=1,
             borderaxespad=0, frameon=False)
@@ -62,3 +62,16 @@ fig.savefig('two_different_y_axis_for_single_python_plot_with_twinx.jpg',
             dpi=100,
             bbox_inches='tight')
 
+from pandas.plotting import table
+# set fig size
+fig, ax3 = plt.subplots() 
+# no axes
+ax3.xaxis.set_visible(False)  
+ax3.yaxis.set_visible(False)  
+# no frame
+ax3.set_frame_on(False)  
+# plot table
+tab = table(ax3, df_f1, loc='upper right')  
+# set font manually
+tab.auto_set_font_size(False)
+tab.set_fontsize(11) 
