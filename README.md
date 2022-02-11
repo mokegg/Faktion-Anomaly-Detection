@@ -1,15 +1,26 @@
-# Faktion-Anomaly-Detection
+# Faktion-Anomaly-Detection 🧩 🎲
 
 
 ***
 ### Description
-This project is about . The goal of the project is to investigate and implement computer vision methods for the purpose of Anomaly detection. The dices dataset used is provided by [Faktion](https://www.faktion.com/). The dataset consits of morethan 7000 (128 x 128) images of dices. The dataset are grouped in 11 diefferent die faces. The dataset also includes  morethan 350 anomaly examples. The dataset is divided in to training and testing sets. 
+This project is about . The goal of the project is to investigate and implement computer vision methods for the purpose of Anomaly detection. The dices dataset used is provided by [Faktion](https://www.faktion.com/). The dataset consits of more than 7000 (128 x 128) images of dices. The dataset are grouped in 11 diefferent die faces. The dataset also includes  morethan 350 anomaly examples. The dataset is divided in to training and testing sets. 
+
+<img width="450" alt="dice" src="https://user-images.githubusercontent.com/46165841/153586153-4a8ef509-e527-4df2-9a8a-9ec231b10abf.png">
+
+<img width="531" alt="image" src="https://user-images.githubusercontent.com/46165841/153586772-7a0314a7-7433-48ab-9eb4-683649d0c2c4.png">
 
  Three different approaches were followed:
-1. Numpy array method - Takes in an image and compares it to templates to find a similar Template; returns the the most 
-similar template and classifies it normal or abnormal based the score of similarity based on MS_SSIM score 
-2. Transfer learning - Convolutional neural networks (CNN) - Takes in an image and uses existing pretrained model `VGG16` to predict  normal or abnormal
-3. Convolutional autoencoder - This model is trained on only the normal training dataset. Given any image, it reconstructs the image and it determines whether the image is Normal or Abnormal based on the similairt of the original image and the reconstructed one
+1. **Numpy array method** - Takes in an image and compares it to templates to find a similar Template; returns the the most 
+similar template and classifies it normal or abnormal based the score of similarity based on MS_SSIM score.
+
+<img width="290" alt="image" src="https://user-images.githubusercontent.com/46165841/153586864-94351ea2-9eaf-45bf-97b5-4226bd93a57a.png">
+
+2. **Transfer learning** - Convolutional neural networks (CNN) - Takes in an image and uses existing pretrained model `VGG16` to predict  normal or abnormal.
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/46165841/153588023-c824ca55-6eab-483d-af51-2dbd4d628329.png">
+
+3. **Convolutional autoencoder** - This model is trained on only the normal training dataset. Given any image, it reconstructs the image and it determines whether the image is Normal or Abnormal based on the similairt of the original image and the reconstructed one.
+
+<img width="400" alt="image" src="https://user-images.githubusercontent.com/46165841/153588169-90ada61f-cf2e-4efb-a0f2-d9042a8b4b9f.png">
 
 ***
 ### Installation
@@ -20,7 +31,7 @@ The environment at which the codes are developed is provided in the `requirement
 ### Usage
 
 
-The three methods are implemented in a single code named pipeline.py
+The three methods are implemented in a single code named main.py
   
 
 ***
@@ -28,15 +39,13 @@ The three methods are implemented in a single code named pipeline.py
 
 Here are sample visuals:
 
-##### Optimizing the F1_score:
-<p align="center">
-  <img src="<p align="left">
-  <img src="![Screenshot from 2021-10-13 15-32-44](Readme_pics/sample0.png)" width="400" height="90" /> </p>
+![ab](https://user-images.githubusercontent.com/46165841/153591009-9e9a6014-1e17-497a-8b88-7fbb697902f5.png)
 
-Sample output from the numpy approach.
+![Figure_1](https://user-images.githubusercontent.com/46165841/153591087-861c122a-b586-41e3-b6c9-c23028d9849e.png)
+
+##### Optimizing the F1_score: 0.973
+
 <p align="center">
-  <img src="<p align="left">
-  <img src="![![dataScaprePandas](Readme_pics/sample1.png))" width="800" height="500" /> </p>
 
 ***
 #### Contributors
@@ -48,6 +57,12 @@ This project is worked-out by the following team:
                                                                                                                                     
 ***
 ### What could be improved 
+- Measure the accuracy of Autoencoder model
+- Improve  Autoencoder model (wrt images reconstructed)
+- Reduce overfitting of VGG16
+- Increase the output classes of VGG16
+- Deployment
+
 
 
 ***
